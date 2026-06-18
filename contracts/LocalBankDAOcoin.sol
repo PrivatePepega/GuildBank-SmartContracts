@@ -211,7 +211,7 @@ contract LocalBankDAOcoin is ERC20, Ownable, ERC20Permit, ERC20Votes, ERC20Cappe
     function Mint(address _user, uint256 _times) public {
         require(_times <= 10);
         require(!isPaused);
-        require(ServerWallet == msg.sender);
+        require(ServerWallet == msg.sender, "not server wallet");
         uint256 mintThese = amountPerMint * _times;
         MintCounter[_user] +=  _times;
         _mint(_user, mintThese);

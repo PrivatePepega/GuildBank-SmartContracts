@@ -137,7 +137,7 @@ contract LocalBankCredit is ERC20, Ownable, ERC20Permit, ERC20Capped {
     function Mint(address _user, uint256 _times) public {
         require(_times <= 30);
         require(!isPaused);
-        require(msg.sender == ServerWallet);
+        require(ServerWallet == msg.sender, "not server wallet");
         uint256 mintThese = amountPerMint * _times;
         MintCounter[_user] += _times;
         _mint(_user, mintThese);
