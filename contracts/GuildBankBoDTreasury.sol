@@ -309,6 +309,10 @@ contract GuildBankBoDTreasury is Ownable, ERC1155Holder , ReentrancyGuard {
     }
     function executeAction(uint _ActionId, bytes calldata _data) public onlyBoD nonReentrant actionActive (_ActionId){ 
         require(actionsMapping[_ActionId].Status == actionStatus.accepted);
+        if(block.timestamp > actionsMapping[_ActionId].autoDelete){
+            closeAction(_ActionId);
+            return;
+        }
         if(actionsMapping[_ActionId].isTx){
                 forLoopTransferFunction(_ActionId , _data);
                 moveQueueToPay(actionsMapping[_ActionId].tokenName, actionsMapping[_ActionId].tokenAmount);
