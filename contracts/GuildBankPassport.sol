@@ -168,28 +168,6 @@ contract GuildBankPassport is ERC1155, Ownable, ERC1155Pausable, ERC1155Supply, 
 
 
 
-
-    function createPassport(string memory _profilePic, string memory _userName, string memory _handle, string memory _statusMSG, bool _TOS, bool _minor, string memory _password) public {
-        require(!hasPassport[msg.sender]);
-        require(_TOS);
-        Passport[msg.sender].ipfsProfilePic = _profilePic;
-        Passport[msg.sender].ownerAddress = msg.sender;
-        Passport[msg.sender].ipfsUserName = _userName;
-        Passport[msg.sender].handle = _handle;
-        Passport[msg.sender].statusMsg = _statusMSG;
-        Passport[msg.sender].accountCreated = block.timestamp;
-        Passport[msg.sender].isMinor = _minor;
-        Passport[msg.sender].userPassword = _password;
-        hasPassport[msg.sender] = true;
-        Passport[msg.sender].passportID = passportCounter;
-
-        passportCounter++;
-
-        ToSAccepted[msg.sender][TosId] = true;
-
-        mint(msg.sender, 0, 1, "0x");
-    }
-
     function serverCreatePassport(address _user, string memory _profilePic, string memory _userName, string memory _handle, string memory _statusMSG, bool _TOS, bool _minor, string memory _password) public onlyServer{
         require(!hasPassport[_user]);
         require(_TOS);
